@@ -126,3 +126,48 @@ Con esto tenemos seguridad de que ya esta atendiendo nuestra solicitud.
 
 
 ## Utilizar complementos
+
+Una de las ventajas mas copadas de Kong, es que podemos utilizar complementos en caliente.
+Vamos a seguir la guia oficial que utiliza el plugin de key-auth, el cual espera que uno le especifique el apikey para solicitar el servicio, en caso que no enviarsela o ser la correcta vamoso a tener un error 401.  Con esto sacamos responsabilidad a los microservicios que podemos tener construido en nuestra arquitectura y Kong se encargara de admininistrar este aspecto.
+ 
+```
+$ curl -i -X POST \
+>   --url http://localhost:8001/services/example-service/plugins/ \
+>   --data 'name=key-auth'
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   376  100   363  100    13  21352    764 --:--:-- --:--:-- --:--:-- 23500HTTP/1.1 201 Created
+Date: Thu, 13 Feb 2020 15:38:29 GMT
+Content-Type: application/json; charset=utf-8
+Connection: keep-alive
+Access-Control-Allow-Origin: *
+Server: kong/2.0.1
+Content-Length: 363
+X-Kong-Admin-Latency: 9
+
+{"created_at":1581608309,"config":{"key_names":["apikey"],"run_on_preflight":true,"anonymous":null,"hide_credentials":false,"key_in_body":false},"id":"2d898b1a-02f4-4268-a838-d7d93f2ebe17","service":{"id":"a26912b7-b488-4e75-b94c-328e7d36abc6"},"enabled":true,"protocols":["grpc","grpcs","http","https"],"name":"key-auth","consumer":null,"route":null,"tags":null}
+```
+
+Nota: Este complemento también acepta un parámetro config.key_names, que por defecto es ['apikey']. Es una lista de encabezados y nombres de parámetros (ambos son compatibles) que se supone que contienen la apikey durante una solicitud.
+
+
+```
+jefra@DESKTOP-O2Q0294 MINGW64 /c/Repos/Step-by-step-Kong-Api-Gateway (master)
+$ curl -i -X GET \
+>   --url http://localhost:8000/ \
+>   --header 'Host: example.com'
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100    41  100    41    0     0   4555      0 --:--:-- --:--:-- --:--:--  4555HTTP/1.1 401 Unauthorized
+Date: Thu, 13 Feb 2020 15:39:10 GMT
+Content-Type: application/json; charset=utf-8
+Connection: keep-alive
+WWW-Authenticate: Key realm="kong"
+Content-Length: 41
+X-Kong-Response-Latency: 1
+Server: kong/2.0.1
+
+{"message":"No API key found in request"}
+```
+
+Como no especificó el encabezado o parámetro de apikey requerido, la respuesta debe ser 401 No autorizado.
