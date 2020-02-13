@@ -123,3 +123,6 @@ $ curl -i -X GET   --url http://localhost:8000/   --header 'Host: example.com'
 ```
 
 Con esto tenemos seguridad de que ya esta atendiendo nuestra solicitud.
+
+
+## Utilizar complementos
