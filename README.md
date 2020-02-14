@@ -1,4 +1,9 @@
-# Step by step Kong Api Gateway
+# Paso a Paso con Kong Api Gateway
+
+### Objetivo
+La idea de este repositorio es una induccion muy rapida a la plataforma, la idea es no cubrir un curso ni la capacitacion adecuada sino entender que existe esta plataforma, algunos beneficios y despertar el interes para profundizar en la misma. 
+
+### Contexto
 
 Kong es una aplicación programada en Lua que se ejecuta en Nginx aprovechando el módulo lua-nginx. Esta base permite que Kong sea extensible a través de una arquitectura de scripts Lua (denominados "complementos") que se pueden cargar en ‘caliente’, mientras está en ejecución.
 
@@ -6,11 +11,11 @@ En Mashape LLC, antiguo nombre de la compañía, en la actualidad Kong Inc, se c
 
 
 Algunas caracteristicas interesantes:
-Construido sobre NGINX
-En su mayor parte escrito en LUA
-Ampliable a través de muchos complementos / addins
-Admite dos tipos de base de datos, que también se pueden usar simultáneamente (Postgres, cassandra)
-Agnostico a la plataforma (disponible para debian / Ubuntu, RedHat / Centos, Docker, AWS, Google Cloud y muchos más).
+- Construido sobre NGINX
+- En su mayor parte escrito en LUA
+- Ampliable a través de muchos complementos / addins
+- Admite dos tipos de base de datos, que también se pueden usar simultáneamente (Postgres, cassandra)
+- Agnostico a la plataforma (disponible para debian / Ubuntu, RedHat / Centos, Docker, AWS, Google Cloud y muchos más).
 
 ![Alt text](resources/img/kong.png?raw=true " ")
 
@@ -213,3 +218,14 @@ Dentro de la estructura encontramos que su ip local es
 ```
 
 Con ese valor ya podemos cargarlo en el Admin y habilitarlo.
+
+## Roadmap
+En estos puntos estoy trabajando
+ - Implementar load balancing
+ - Algun complemento adicional, como log a algun consumers especifico 
+ - Estrategias de Despliegue en caso de servicios ya productivos
+ - Se escucha alguna idea
+
+# Contacto
+
+Cualquier duda o consulta, ubicame en [Telegram](https://t.me/Jefrnc), [Linkedin](https://www.linkedin.com/in/joffranco/) o por [Mail](mailto:jsfrnc@outlook.com)
