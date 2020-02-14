@@ -183,7 +183,7 @@ Sera que siempre destras de un gran hombre existe una gran mujer? Bueno tenemos 
 
 Para eso levantamos un Container referenciando la imagen de konga en pantsel/konga
 ```
-docker run -d -p 1337:1337 --network kong-net -e "TOKEN_SECRET={{somerandomstring}}" -e   --name konga  pantsel/konga
+docker run -d -p 1337:1337 --network kong-net -e "TOKEN_SECRET={{somerandomstring}}"  --name konga  pantsel/konga
 ```
 En este ejemplo, no especificamos nada ya que lo levantamos con los valores por defecto, salvo con la network ya que necesitamos visibilidad a nustro Kong.
 
