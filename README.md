@@ -59,9 +59,7 @@ Todo el Script se encuentra en
 run_kong.cmd
 ```
 
- https://docs.konghq.com/install/docker/
-
-
+https://docs.konghq.com/install/docker/
 
 ## Construccion del primer servicio y ruta
 
@@ -173,3 +171,45 @@ Ahora verificamos el acceso a la api
 ```
 $ curl -i -X GET   --url http://localhost:8000   --header "Host: example.com"   --header "apikey: 0b0939da-2069-bfa9-48c2-336ca67256dd"
 ```
+
+
+## Administracion de Kong mediante Konga
+Sera que siempre destras de un gran hombre existe una gran mujer? Bueno tenemos Konga, la idea de es todas estas operaciones que hicimos mediante curl, utilizar una herramienta amigable para proceder a administrar esta herramienta.
+
+Para eso levantamos un Container referenciando la imagen de konga en pantsel/konga
+```
+docker run -d -p 1337:1337 --network kong-net -e "TOKEN_SECRET={{somerandomstring}}" -e   --name konga  pantsel/konga
+```
+En este ejemplo, no especificamos nada ya que lo levantamos con los valores por defecto, salvo con la network ya que necesitamos visibilidad a nustro Kong.
+
+Como toda herramienta nos va a solicitar crear un usuario administrador y posterior cargamos nuestra connection.
+
+![Alt text](resources/img/konga.png?raw=true " ")
+
+Vamos a tener que cargar nuestro Url de Admin de Kong, anteriormente redireccionamos este puerto a nuestro localhost ahora deberiamos cargar la Ip de nuestro contenedor que corre Kong para poder acceder a todas las funcionalidades,
+ 
+![Alt text](resources/img/kong_new_connection.png?raw=true " ")
+ 
+
+ Si no sabemos como sacar la ip, deberian obtener el id del contenedor que corre Kong
+
+```
+docker container ls
+CONTAINER ID        IMAGE                COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+23e94e667712        nginx-test-service   "/usr/bin/openresty …"   18 hours ago        Up 24 minutes       0.0.0.0:1091->80/tcp                                                 srv_02
+b018b55ca3a2        nginx-test-service   "/usr/bin/openresty …"   18 hours ago        Up 24 minutes       0.0.0.0:1090->80/tcp                                                 srv_01
+3251d485527b        pantsel/konga        "/app/start.sh"          19 hours ago        Up 39 minutes       0.0.0.0:1337->1337/tcp                                               konga2
+2ade2509ac0b        kong:latest          "/docker-entrypoint.…"   19 hours ago        Up 49 minutes       0.0.0.0:8000-8002->8000-8002/tcp, 0.0.0.0:8443-8444->8443-8444/tcp   kong
+8f6ef75ec850        postgres:9.6         "docker-entrypoint.s…"   27 hours ago        Up 9 hours          0.0.0.0:5432->5432/tcp                                               kong-postgres-database
+1a6c4affb8b5        cassandra:3          "docker-entrypoint.s…"   27 hours ago        Up 9 hours          7000-7001/tcp, 7199/tcp, 9160/tcp, 0.0.0.0:9042->9042/tcp            kong-cassandra-database
+```
+En el listado anterior seria el 2ade2509ac0b, entonces inspeccionamos el container
+```
+docker inspect  2ade2509ac0b
+```
+Dentro de la estructura encontramos que su ip local es
+```
+"IPAddress": "172.18.0.4",
+```
+
+Con ese valor ya podemos cargarlo en el Admin y habilitarlo.
