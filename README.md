@@ -219,9 +219,79 @@ Dentro de la estructura encontramos que su ip local es
 
 Con ese valor ya podemos cargarlo en el Admin y habilitarlo.
 
+
+
+## Implementar Load Balancing
+
+Para poner un poco de contexto, tengo una api alojada en tres contenedores. Estas con srv_01, srv_02, srv_03, quiero desde Kong redireccionar todas las peticiones /example a estas api, en una carga del 33% a cada una. Con lo cual nos quedaria un esquema de la siguiente manera:
+
+![Alt text](resources/img/scenario.png?raw=true " ")
+
+Dentro de la carpeta de test-service tenemos un servicio de prueba, construimos la imagen
+```
+docker build . -t nginx-test-service
+```
+
+Creamos dos servicios en paralelo para probar el balanceo de carga
+```
+docker run -d --privileged --name srv_01 -p 1090:80 --network=kong-net -ti nginx-test-service
+docker run -d --privileged --name srv_02 -p 1091:80 --network=kong-net -ti nginx-test-service
+docker run -d --privileged --name srv_03 -p 1092:80 --network=kong-net -ti nginx-test-service
+```
+
+Sino tambien pueden usar mi imagen de DockerHub
+```
+docker run -d --privileged --name srv_01 -p 1090:80 --memory="200m" -ti jsfrnc/nginx-test-service:latest
+docker run -d --privileged --name srv_02 -p 1091:80 --memory="200m" -ti jsfrnc/nginx-test-service:latest
+docker run -d --privileged --name srv_02 -p 1092:80 --memory="200m" -ti jsfrnc/nginx-test-service:latest
+```
+Ya tenemos todo levantado, si hacemos una peticion a uno de estos puertos vamos a ver que nos devuelve un mensaje hardcode pero con la ip del servidor, para saber cual nos va a estar respondiendo cuando hagamos el load balancer.
+
+Para implementar este aspecto debemos generar un upstreams, es importante el nombre ya que vamos a tener que referenciarlo en nuestra url en los proximos pasos.
+
+```
+curl -i -X POST \
+  --url http://localhost:8001/upstreams/ \
+  --data 'name=semperti.v2.service' \
+  --data 'slots=1000'
+```
+A este upstreams asociamos todos los targets que va a apuntar nuestro servicio, para generar nuestra distribucion de carga. En el atributo de weight enviamos como vamos a realizar la distribucion de las solicitudes.
+```
+curl -i -X POST \
+  --url http://127.0.0.1:8001/upstreams/semperti.v2.service/targets \
+  --data 'target=172.18.0.2:80' \
+  --data 'weight=333'
+curl -i -X POST \
+  --url http://127.0.0.1:8001/upstreams/semperti.v2.service/targets \
+  --data 'target=172.18.0.6:80' \
+  --data 'weight=333'
+curl -i -X POST \
+  --url http://127.0.0.1:8001/upstreams/semperti.v2.service/targets \
+  --data 'target=172.18.0.7:80' \
+  --data 'weight=334'
+```
+
+Creamos nuestro servicio con la vinculacion a nuestro upstreams
+```
+curl -i -X POST \
+   --url http://localhost:8001/services/ \
+   --data 'name=semperti-service2' \
+   --data 'url=http://semperti.v2.service'
+```
+
+Generamos una ruta, en este caso solo lo hice con un path /example
+```
+curl -i -X POST \
+   --url http://localhost:8001/services/semperti-service2/routes \
+   --data 'paths[]=/example'
+```
+Y probamos: 
+ 
+![Test](resources/img/test_lb.gif)
+
 ## Roadmap
 En estos puntos estoy trabajando
- - Implementar load balancing
+
  - Algun complemento adicional, como log a algun consumers especifico 
  - Estrategias de Despliegue en caso de servicios ya productivos
  - Se escucha alguna idea
