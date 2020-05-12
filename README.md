@@ -1,9 +1,13 @@
-# Paso a Paso con Kong Api Gateway
+[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/josephefranco)
 
-### Objetivo
+# Un poco de Kong (Api Gateway)
+
 La idea de este repositorio es una induccion muy rapida a la plataforma, la idea es no cubrir un curso ni la capacitacion adecuada sino entender que existe esta plataforma, algunos beneficios y despertar el interes para profundizar en la misma. 
 
+## Comenzando 🚀
+
 ### Contexto
+ 
 
 Kong es una aplicación programada en Lua que se ejecuta en Nginx aprovechando el módulo lua-nginx. Esta base permite que Kong sea extensible a través de una arquitectura de scripts Lua (denominados "complementos") que se pueden cargar en ‘caliente’, mientras está en ejecución.
 
@@ -296,6 +300,21 @@ En estos puntos estoy trabajando
  - Estrategias de Despliegue en caso de servicios ya productivos
  - Se escucha alguna idea
 
-# Contacto
+## Contribuyendo 🖇️
 
-Cualquier duda o consulta, ubicame en [Telegram](https://t.me/Jefrnc), [Linkedin](https://www.linkedin.com/in/joffranco/) o por [Mail](mailto:jsfrnc@outlook.com)
+Por favor lee el [CONTRIBUTING.md]([CONTRIBUTING.md) para detalles del código de conducta, y el proceso para enviarnos pull requests.
+
+
+## Licencia 📄
+
+Mira el archivo [LICENSE.md](LICENSE.md) para detalles
+
+## Expresiones de Gratitud 🎁
+
+* Comenta a otros sobre este proyecto 📢
+* Invita una cerveza 🍺 o un café ☕ a alguien del equipo. 
+* Da las gracias públicamente 🤓.
+
+---
+⌨️ con ❤️ por [jose-franco](https://github.com/jose-franco) 😊
+Si me queres contactar te dejo mi [Telegram](https://t.me/josfranco) y [Linkedin](https://www.linkedin.com/in/joffranco/).
