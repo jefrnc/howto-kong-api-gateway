@@ -316,5 +316,5 @@ Mira el archivo [LICENSE.md](LICENSE.md) para detalles
 * Da las gracias públicamente 🤓.
 
 ---
-⌨️ con ❤️ por [jose-franco](https://github.com/jose-franco) 😊
-Si me queres contactar te dejo mi [Telegram](https://t.me/josfranco) y [Linkedin](https://www.linkedin.com/in/joffranco/).
+⌨️ con ❤️ por [jose-franco](https://github.com/jefrnc) 😊
+Si me queres contactar te dejo mi [Telegram](https://https://t.me/jsfrnc) y [Linkedin](https://www.linkedin.com/in/joffranco/).
