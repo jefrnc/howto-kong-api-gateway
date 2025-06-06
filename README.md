@@ -317,4 +317,4 @@ Mira el archivo [LICENSE.md](LICENSE.md) para detalles
 
 ---
 ⌨️ con ❤️ por [jose-franco](https://github.com/jefrnc) 😊
-Si me queres contactar te dejo mi [Telegram](https://https://t.me/jsfrnc) y [Linkedin](https://www.linkedin.com/in/joffranco/).
+Si me queres contactar te dejo mi [Telegram](https://t.me/jsfrnc) y [Linkedin](https://www.linkedin.com/in/joffranco/).
